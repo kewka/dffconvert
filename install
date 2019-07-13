@@ -1,6 +1,0 @@
-#!/bin/bash
-apt-get update
-apt-get install -y software-properties-common
-add-apt-repository ppa:thomas-schiex/blender -y
-apt-get update
-apt-get install blender -y

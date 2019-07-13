@@ -2,16 +2,6 @@
 
 Python script to convert DFF file to OBJ.
 
-## Example
-
-```
-# Install Blender
-./install
-
-# Convert example ballas3.dff to ballas3.obj
-./dff2obj example/ballas3.dff example/ballas3.obj
-```
-
 ## Dependencies
 
 - [Blender](https://www.blender.org/)
