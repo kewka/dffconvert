@@ -17,7 +17,7 @@ import os
 import glob
 import subprocess
 
-SERVER_HOST = '127.0.0.1'
+SERVER_HOST = os.getenv('HOST', '0.0.0.0')
 SERVER_PORT = int(os.getenv('PORT', '8000'))
 SERVER_ADDRESS = (SERVER_HOST, SERVER_PORT)
 
@@ -114,6 +114,7 @@ def main():
 
     while True:
         client, addr = server.accept()
+        print('New client')
         threading.Thread(target=handle_request, args=(client,)).start()
 
     server.close()
