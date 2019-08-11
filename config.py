@@ -4,8 +4,8 @@ SERVER_HOST = os.getenv('HOST', '0.0.0.0')
 SERVER_PORT = int(os.getenv('PORT', '8000'))
 SERVER_ADDRESS = (SERVER_HOST, SERVER_PORT)
 
-# Maximum size of DFF file (1 MB).
-MAX_FILE_SIZE = 1024 * 1024
+# Maximum size of DFF file (16 MB).
+MAX_FILE_SIZE = 1024 * 1024 * 16
 # Buffer size (64 KB).
 BUFFER_SIZE = 1024 * 64
 # Socket timeout (5 seconds).
