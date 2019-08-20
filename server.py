@@ -7,6 +7,7 @@ Request:
 [dff_data] - The contents of the DFF file. Size: [dff_size] bytes.
 
 Response:
+[obj_size] - Header with OBJ file size. Size: {config.HEADER_SIZE} bytes.
 [obj_data] - The contents of the OBJ file.
 '''
 
@@ -20,6 +21,10 @@ import config
 
 
 def handle_request(client: socket.socket):
+    # Create temp directory.
+    if not os.path.isdir(config.TEMP_DIR):
+        os.mkdir(config.TEMP_DIR)
+
     # Generate file id.
     id = str(uuid.uuid1())
     # Path to DFF file.
@@ -29,7 +34,7 @@ def handle_request(client: socket.socket):
     # Set the socket timeout.
     client.settimeout(config.SOCKET_TIMEOUT_SECONDS)
 
-    print('Temporary file id: %s' % id)
+    print('File id: %s' % id)
 
     def clean():
         try:
@@ -70,7 +75,12 @@ def handle_request(client: socket.socket):
         if subprocess.call([config.DFF2OBJ, dff_path, obj_path]) or not os.path.isfile(obj_path):
             return clean()
 
-        # Send OBJ file to the client.
+        # Get OBJ file size.
+        obj_size = os.path.getsize(obj_path)
+        # Send header with obj_size.
+        client.send(obj_size.to_bytes(config.HEADER_SIZE, config.HEADER_BYTEORDER))
+
+        # Send OBJ file data.
         with open(obj_path, 'rb') as obj:
             while True:
                 chunk = obj.read(config.BUFFER_SIZE)
@@ -81,8 +91,8 @@ def handle_request(client: socket.socket):
                 client.send(chunk)
 
         return clean()
-    except socket.timeout:
-        print('[%s] Socket timeout error' % id)
+    except:
+        print('[%s] Socket error' % id)
         return clean()
 
 
@@ -94,10 +104,7 @@ def main():
 
     while True:
         client, addr = server.accept()
-        print('New client')
         threading.Thread(target=handle_request, args=(client,)).start()
-
-    server.close()
 
 
 if __name__ == '__main__':
