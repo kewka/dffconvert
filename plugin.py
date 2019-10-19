@@ -344,8 +344,9 @@ class ImportRenderware:
                     self.bltex = bpy.data.textures.new(self.name, "IMAGE")
                     self.bltex.__class__ = bpy.types.ImageTexture
                     self.loader.texpool[self.name] = self.bltex
-                    
-                imgfile = self.loader.filename + "_tex\\" + self.name + ".png"
+                
+                textures_dir = os.getenv('TEXTURES_DIR', self.loader.filename + "_tex")
+                imgfile = os.path.join(textures_dir, self.name + ".png")
                 
                 if os.path.isfile(imgfile):
                     self.bltex.image = bpy.data.images.load(imgfile)

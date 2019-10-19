@@ -24,11 +24,11 @@ def main():
     bpy.ops.object.delete()
 
     # Import dff object
-    imported_object = bpy.ops.import_rw.dff(
+    bpy.ops.import_rw.dff(
         'EXEC_DEFAULT', filepath=source)
 
-    # Export scene to obj file
-    bpy.ops.export_scene.obj(filepath=output)
+    # Export scene as obj file.
+    bpy.ops.export_scene.obj(filepath=output, path_mode = 'STRIP')
 
 
 if __name__ == '__main__':
