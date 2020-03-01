@@ -1,7 +1,6 @@
 import bpy
 import sys
 
-
 def main():
     args = sys.argv
 
@@ -10,11 +9,16 @@ def main():
     except ValueError:
         args = []
 
-    if len(args) < 2:
-        print('Use: blender -b -P plugin.py -P script.py -- [dff] [obj]')
+    if len(args) < 3:
+        print('Use: blender -b -P plugin.py -P script.py -- [path_to_dff] [path_to_output] [mode]')
         exit(1)
 
-    [source, output] = args
+    [dff, output, mode] = args
+    available_modes = dir(bpy.ops.export_scene)
+
+    if mode not in available_modes:
+        print('Available modes:', available_modes)
+        exit(1)
 
     # Select all objects
     for obj in bpy.context.scene.objects:
@@ -25,10 +29,10 @@ def main():
 
     # Import dff object
     bpy.ops.import_rw.dff(
-        'EXEC_DEFAULT', filepath=source)
+        'EXEC_DEFAULT', filepath=dff)
 
-    # Export scene as obj file.
-    bpy.ops.export_scene.obj(filepath=output, path_mode = 'STRIP')
+    # Export scene.
+    getattr(bpy.ops.export_scene, mode)(filepath=output, path_mode = 'STRIP')
 
 
 if __name__ == '__main__':

@@ -1,10 +1,11 @@
-# DFF to OBJ (dff2obj)
+# DFF Convert (dffconvert)
 
-Python script to convert DFF file to OBJ.
+Convert dff file to another format.
 
 ## Usage
 ```sh
-blender -b -P ./plugin.py -P ./script.py -- [path_to_dff] [path_to_obj]
+# available modes: autodesk_3ds, fbx, obj, x3d
+blender -b -P plugin.py -P script.py -- [path_to_dff] [path_to_output] [mode]
 ```
 
 Environment variables:

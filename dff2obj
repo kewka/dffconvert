@@ -1,2 +1,0 @@
-#!/bin/bash
-blender -b -P ./plugin.py -P ./script.py -- $1 $2
